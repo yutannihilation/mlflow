@@ -177,6 +177,28 @@ Examples
     list("\n", "library(mlflow)\n", "mlflow_install()\n", "\n", "mlflow_cli(\"server\", \"--help\")\n") 
     
 
+Initialize an MLflow client
+===========================
+
+Initialize an MLflow client
+
+.. code:: r
+
+   mlflow_client(tracking_uri = NULL)
+
+.. _arguments-3:
+
+Arguments
+---------
+
++-------------------------------+--------------------------------------+
+| Argument                      | Description                          |
++===============================+======================================+
+| ``tracking_uri``              | The tracking URI. If not provided,   |
+|                               | defaults to the service set by       |
+|                               | ``mlflow_set_tracking_uri()``.       |
++-------------------------------+--------------------------------------+
+
 Create Experiment - Tracking Client
 ===================================
 
@@ -186,7 +208,7 @@ Creates an MLflow experiment.
 
    mlflow_client_create_experiment(client, name, artifact_location = NULL)
 
-.. _arguments-3:
+.. _arguments-4:
 
 Arguments
 ---------
@@ -226,7 +248,7 @@ execution of a machine learning or data ETL pipeline.
      entry_point_name = NULL, start_time = NULL, source_version = NULL,
      tags = NULL)
 
-.. _arguments-4:
+.. _arguments-5:
 
 Arguments
 ---------
@@ -288,7 +310,7 @@ experiment are also deleted.
 
    mlflow_client_delete_experiment(client, experiment_id)
 
-.. _arguments-5:
+.. _arguments-6:
 
 Arguments
 ---------
@@ -321,7 +343,7 @@ Delete a Run
 
    mlflow_client_delete_run(client, run_id)
 
-.. _arguments-6:
+.. _arguments-7:
 
 Arguments
 ---------
@@ -354,7 +376,7 @@ if applicable, and return a local path for it.
 
    mlflow_client_download_artifacts(client, run_id, path)
 
-.. _arguments-7:
+.. _arguments-8:
 
 Arguments
 ---------
@@ -370,38 +392,6 @@ Arguments
 +------------+-----------------------------------------------+
 
 .. _details-4:
-
-Details
--------
-
-The Tracking Client family of functions require an MLflow client to be
-specified explicitly. These functions allow for greater control of where
-the operations take place in terms of services and runs, but are more
-verbose compared to the Fluent API.
-
-Get Experiment by Name
-======================
-
-Get meta data for experiment by name.
-
-.. code:: r
-
-   mlflow_client_get_experiment_by_name(client, name)
-
-.. _arguments-8:
-
-Arguments
----------
-
-+------------+------------------------------+
-| Argument   | Description                  |
-+============+==============================+
-| ``client`` | An ``mlflow_client`` object. |
-+------------+------------------------------+
-| ``name``   | The experiment name.         |
-+------------+------------------------------+
-
-.. _details-5:
 
 Details
 -------
@@ -433,6 +423,38 @@ Arguments
 | ``experiment_id`` | Identifer to get an experiment. |
 +-------------------+---------------------------------+
 
+.. _details-5:
+
+Details
+-------
+
+The Tracking Client family of functions require an MLflow client to be
+specified explicitly. These functions allow for greater control of where
+the operations take place in terms of services and runs, but are more
+verbose compared to the Fluent API.
+
+Get Experiment by Name
+======================
+
+Get meta data for experiment by name.
+
+.. code:: r
+
+   mlflow_client_get_experiment_by_name(client, name)
+
+.. _arguments-10:
+
+Arguments
+---------
+
++------------+------------------------------+
+| Argument   | Description                  |
++============+==============================+
+| ``client`` | An ``mlflow_client`` object. |
++------------+------------------------------+
+| ``name``   | The experiment name.         |
++------------+------------------------------+
+
 .. _details-6:
 
 Details
@@ -453,7 +475,7 @@ for each metric is returned.
 
    mlflow_client_get_run(client, run_id)
 
-.. _arguments-10:
+.. _arguments-11:
 
 Arguments
 ---------
@@ -485,7 +507,7 @@ List artifacts
 
    mlflow_client_list_artifacts(client, run_id, path = NULL)
 
-.. _arguments-11:
+.. _arguments-12:
 
 Arguments
 ---------
@@ -522,7 +544,7 @@ Get a list of all experiments.
    mlflow_client_list_experiments(client, view_type = c("ACTIVE_ONLY",
      "DELETED_ONLY", "ALL"))
 
-.. _arguments-12:
+.. _arguments-13:
 
 Arguments
 ---------
@@ -556,7 +578,7 @@ Logs an specific file or directory as an artifact.
 
    mlflow_client_log_artifact(client, run_id, path, artifact_path = NULL)
 
-.. _arguments-13:
+.. _arguments-14:
 
 Arguments
 ---------
@@ -604,7 +626,7 @@ historical values along with timestamps.
 
    mlflow_client_log_metric(client, run_id, key, value, timestamp = NULL)
 
-.. _arguments-14:
+.. _arguments-15:
 
 Arguments
 ---------
@@ -647,7 +669,7 @@ single parameter is allowed to be logged only once.
 
    mlflow_client_log_param(client, run_id, key, value)
 
-.. _arguments-15:
+.. _arguments-16:
 
 Arguments
 ---------
@@ -685,7 +707,7 @@ underlying artifacts associated with experiment are also restored.
 
    mlflow_client_restore_experiment(client, experiment_id)
 
-.. _arguments-16:
+.. _arguments-17:
 
 Arguments
 ---------
@@ -721,7 +743,7 @@ Restore a Run
 
    mlflow_client_restore_run(client, run_id)
 
-.. _arguments-17:
+.. _arguments-18:
 
 Arguments
 ---------
@@ -754,7 +776,7 @@ after a run completes.
 
    mlflow_client_set_tag(client, run_id, key, value)
 
-.. _arguments-18:
+.. _arguments-19:
 
 Arguments
 ---------
@@ -794,7 +816,7 @@ Terminate a Run
    mlflow_client_set_terminated(client, run_id, status = c("FINISHED",
      "SCHEDULED", "FAILED", "KILLED"), end_time = NULL)
 
-.. _arguments-19:
+.. _arguments-20:
 
 Arguments
 ---------
@@ -822,28 +844,6 @@ The Tracking Client family of functions require an MLflow client to be
 specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
-
-Initialize an MLflow client
-===========================
-
-Initialize an MLflow client
-
-.. code:: r
-
-   mlflow_client(tracking_uri = NULL)
-
-.. _arguments-20:
-
-Arguments
----------
-
-+-------------------------------+--------------------------------------+
-| Argument                      | Description                          |
-+===============================+======================================+
-| ``tracking_uri``              | The tracking URI. If not provided,   |
-|                               | defaults to the service set by       |
-|                               | ``mlflow_set_tracking_uri()``.       |
-+-------------------------------+--------------------------------------+
 
 Create Experiment
 =================
