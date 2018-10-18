@@ -12,8 +12,10 @@ For instance, you can use the R API to `install MLflow`_, start the `user interf
     :local:
     :depth: 1
 
+``crate``
+=========
+
 Crate a function to share with another process
-==============================================
 
 ``crate()`` creates functions in a self-contained environment
 (technically, a child of the base environment). This has two advantages:
@@ -56,51 +58,53 @@ Examples
 
 .. code:: r
 
-    # You can create functions using the ordinary notation:
-    crate(function(x) stats::var(x))
-    
-    # Or the formula notation:
-    crate(~stats::var(.x))
-    
-    # Declare data by supplying named arguments. You can test you have
-    # declared all necessary data by calling your crated function:
-    na_rm <- TRUE
-    fn <- crate(~stats::var(.x, na.rm = na_rm))
-    try(fn(1:10))
-    
-    # Arguments are automatically named after themselves so that the
-    # following are equivalent:
-    crate(~stats::var(.x, na.rm = na_rm), na_rm = na_rm)
-    crate(~stats::var(.x, na.rm = na_rm), na_rm)
-    
-    # However if you supply a complex expression, do supply a name!
-    crate(~stats::var(.x, na.rm = na_rm), !na_rm)
-    crate(~stats::var(.x, na.rm = na_rm), na_rm = na_rm)
-    
-    # For small data it is handy to unquote instead. Unquoting inlines
-    # objects inside the function. This is less verbose if your
-    # function depends on many small objects:
-    fn <- crate(~stats::var(.x, na.rm = !!na_rm))
-    fn(1:10)
-    
-    # One downside is that the individual sizes of unquoted objects
-    # won't be shown in the crate printout:
-    fn
-    
-    
-    # The function or formula you pass to crate() should defined inside
-    # the crate() call, i.e. you can't pass an already defined
-    # function:
-    fn <- function(x) toupper(x)
-    try(crate(fn))
-    
-    # If you really need to crate an existing function, you can
-    # explicitly set its environment to the crate environment with the
-    # set_env() function from rlang:
-    crate(rlang::set_env(fn))
+   # You can create functions using the ordinary notation:
+   crate(function(x) stats::var(x))
+
+   # Or the formula notation:
+   crate(~stats::var(.x))
+
+   # Declare data by supplying named arguments. You can test you have
+   # declared all necessary data by calling your crated function:
+   na_rm <- TRUE
+   fn <- crate(~stats::var(.x, na.rm = na_rm))
+   try(fn(1:10))
+
+   # Arguments are automatically named after themselves so that the
+   # following are equivalent:
+   crate(~stats::var(.x, na.rm = na_rm), na_rm = na_rm)
+   crate(~stats::var(.x, na.rm = na_rm), na_rm)
+
+   # However if you supply a complex expression, do supply a name!
+   crate(~stats::var(.x, na.rm = na_rm), !na_rm)
+   crate(~stats::var(.x, na.rm = na_rm), na_rm = na_rm)
+
+   # For small data it is handy to unquote instead. Unquoting inlines
+   # objects inside the function. This is less verbose if your
+   # function depends on many small objects:
+   fn <- crate(~stats::var(.x, na.rm = !!na_rm))
+   fn(1:10)
+
+   # One downside is that the individual sizes of unquoted objects
+   # won't be shown in the crate printout:
+   fn
+
+
+   # The function or formula you pass to crate() should defined inside
+   # the crate() call, i.e. you can't pass an already defined
+   # function:
+   fn <- function(x) toupper(x)
+   try(crate(fn))
+
+   # If you really need to crate an existing function, you can
+   # explicitly set its environment to the crate environment with the
+   # set_env() function from rlang:
+   crate(rlang::set_env(fn))
+
+``is_crate``
+============
 
 Is an object a crate?
-=====================
 
 Is an object a crate?
 
@@ -119,8 +123,10 @@ Arguments
 | ``x``    | An object to test. |
 +----------+--------------------+
 
+``mlflow_active_run``
+=====================
+
 Active Run
-==========
 
 Retrieves the active run.
 
@@ -128,8 +134,10 @@ Retrieves the active run.
 
    mlflow_active_run()
 
-MLflow Command
+``mlflow_cli``
 ==============
+
+MLflow Command
 
 Executes a generic MLflow command through the commmand line interface.
 
@@ -165,7 +173,7 @@ Arguments
 Value
 -----
 
-A ``processx`` task.
+Aprocessxtask.
 
 .. _examples-1:
 
@@ -174,11 +182,16 @@ Examples
 
 .. code:: r
 
-    list("\n", "library(mlflow)\n", "mlflow_install()\n", "\n", "mlflow_cli(\"server\", \"--help\")\n") 
-    
+
+   library(mlflow)
+   mlflow_install()
+
+   mlflow_cli("server", "--help")
+
+``mlflow_client``
+=================
 
 Initialize an MLflow client
-===========================
 
 Initialize an MLflow client
 
@@ -199,8 +212,10 @@ Arguments
 |                               | ``mlflow_set_tracking_uri()``.       |
 +-------------------------------+--------------------------------------+
 
-Create Experiment - Tracking Client
+``mlflow_client_create_experiment``
 ===================================
+
+Create Experiment - Tracking Client
 
 Creates an MLflow experiment.
 
@@ -235,8 +250,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_create_run``
+============================
+
 Create Run
-==========
 
 reate a new run within an experiment. A run is usually a single
 execution of a machine learning or data ETL pipeline.
@@ -299,8 +316,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_delete_experiment``
+===================================
+
 Delete Experiment
-=================
 
 Mark an experiment and associated runs, params, metrics, … etc for
 deletion. If the experiment uses FileStore, artifacts associated with
@@ -334,8 +353,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_delete_run``
+============================
+
 Delete a Run
-============
 
 Delete a Run
 
@@ -366,8 +387,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_download_artifacts``
+====================================
+
 Download Artifacts
-==================
 
 Download an artifact file or directory from a run to a local directory
 if applicable, and return a local path for it.
@@ -401,8 +424,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_get_experiment``
+================================
+
 Get Experiment
-==============
 
 Get meta data for experiment and a list of runs for this experiment.
 
@@ -433,8 +458,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_get_experiment_by_name``
+========================================
+
 Get Experiment by Name
-======================
 
 Get meta data for experiment by name.
 
@@ -465,8 +492,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_get_run``
+=========================
+
 Get Run
-=======
 
 Get meta data, params, tags, and metrics for run. Only last logged value
 for each metric is returned.
@@ -498,8 +527,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_list_artifacts``
+================================
+
 List artifacts
-==============
 
 List artifacts
 
@@ -534,8 +565,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_list_experiments``
+==================================
+
 List Experiments
-================
 
 Get a list of all experiments.
 
@@ -569,8 +602,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_log_artifact``
+==============================
+
 Log Artifact
-============
 
 Logs an specific file or directory as an artifact.
 
@@ -608,14 +643,19 @@ verbose compared to the Fluent API.
 When logging to Amazon S3, ensure that the user has a proper policy
 attach to it, for instance:
 
-\`\`
+{ “Version”: “2012-10-17”, “Statement”: [ { “Sid”: “VisualEditor0”,
+“Effect”: “Allow”, “Action”: [ “s3:PutObject”, “s3:GetObject”,
+“s3:ListBucket”, “s3:GetBucketLocation”], “Resource”: [
+"arn:aws:s3:::mlflow-test/\*“,”arn:aws:s3:::mlflow-test"] }] }
 
-Additionally, at least the ``AWS_ACCESS_KEY_ID`` and
-``AWS_SECRET_ACCESS_KEY`` environment variables must be set to the
-corresponding key and secrets provided by Amazon IAM.
+Additionally, at least theAWS_ACCESS_KEY_IDandAWS_SECRET_ACCESS_KEY
+environment variables must be set to the corresponding key and secrets
+provided by Amazon IAM.
+
+``mlflow_client_log_metric``
+============================
 
 Log Metric
-==========
 
 API to log a metric for a run. Metrics key-value pair that record a
 single float measure. During a single execution of a run, a particular
@@ -657,8 +697,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_log_param``
+===========================
+
 Log Parameter
-=============
 
 API to log a parameter used for this run. Examples are params and
 hyperparams used for ML training, or constant dates and values used in
@@ -696,8 +738,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_restore_experiment``
+====================================
+
 Restore Experiment
-==================
 
 Restore an experiment marked for deletion. This also restores associated
 metadata, runs, metrics, and params. If experiment uses FileStore,
@@ -734,8 +778,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_restore_run``
+=============================
+
 Restore a Run
-=============
 
 Restore a Run
 
@@ -766,8 +812,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_set_tag``
+=========================
+
 Set Tag
-=======
 
 Set a tag on a run. Tags are run metadata that can be updated during and
 after a run completes.
@@ -806,8 +854,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_client_set_terminated``
+================================
+
 Terminate a Run
-===============
 
 Terminate a Run
 
@@ -845,8 +895,10 @@ specified explicitly. These functions allow for greater control of where
 the operations take place in terms of services and runs, but are more
 verbose compared to the Fluent API.
 
+``mlflow_create_experiment``
+============================
+
 Create Experiment
-=================
 
 Creates an MLflow experiment.
 
@@ -881,8 +933,10 @@ determined by the service set by ``mlflow_set_tracking_uri()``. For
 operations involving a run it adopts the current active run, or, if one
 does not exist, starts one through the implied service.
 
+``mlflow_end_run``
+==================
+
 End a Run
-=========
 
 End an active MLflow run (if there is one).
 
@@ -911,8 +965,10 @@ determined by the service set by ``mlflow_set_tracking_uri()``. For
 operations involving a run it adopts the current active run, or, if one
 does not exist, starts one through the implied service.
 
+``mlflow_get_tracking_uri``
+===========================
+
 Get Remote Tracking URI
-=======================
 
 Get Remote Tracking URI
 
@@ -920,8 +976,10 @@ Get Remote Tracking URI
 
    mlflow_get_tracking_uri()
 
+``mlflow_install``
+==================
+
 Install MLflow
-==============
 
 Installs MLflow for individual use.
 
@@ -934,9 +992,8 @@ Installs MLflow for individual use.
 Details
 -------
 
-Notice that MLflow requires Python and Conda to be installed, see
-https://www.python.org/getit/ and
-https://conda.io/docs/installation.html .
+Notice that MLflow requires Python and Conda to be installed,
+seehttps://www.python.org/getit/andhttps://conda.io/docs/installation.html.
 
 .. _examples-2:
 
@@ -945,11 +1002,14 @@ Examples
 
 .. code:: r
 
-    list("\n", "library(mlflow)\n", "mlflow_install()\n") 
-    
+
+   library(mlflow)
+   mlflow_install()
+
+``mlflow_load_flavor``
+======================
 
 Load MLflow Model Flavor
-========================
 
 Loads an MLflow model flavor, to be used by package authors to extend
 the supported MLflow models.
@@ -969,8 +1029,10 @@ Arguments
 | ``model_path`` | The path to the MLflow model wrapped in the correct class. |
 +----------------+------------------------------------------------------------+
 
+``mlflow_load_model``
+=====================
+
 Load MLflow Model.
-==================
 
 MLflow models can have multiple model flavors. Not all flavors / models
 can be loaded in R. This method will by default search for a flavor
@@ -1003,10 +1065,10 @@ Arguments
 |                               | tracking server.                     |
 +-------------------------------+--------------------------------------+
 
-.. _log-artifact-1:
+``mlflow_log_artifact``
+=======================
 
 Log Artifact
-============
 
 Logs an specific file or directory as an artifact.
 
@@ -1040,16 +1102,19 @@ does not exist, starts one through the implied service.
 When logging to Amazon S3, ensure that the user has a proper policy
 attach to it, for instance:
 
-\`\`
+{ “Version”: “2012-10-17”, “Statement”: [ { “Sid”: “VisualEditor0”,
+“Effect”: “Allow”, “Action”: [ “s3:PutObject”, “s3:GetObject”,
+“s3:ListBucket”, “s3:GetBucketLocation”], “Resource”: [
+"arn:aws:s3:::mlflow-test/\*“,”arn:aws:s3:::mlflow-test"] }] }
 
-Additionally, at least the ``AWS_ACCESS_KEY_ID`` and
-``AWS_SECRET_ACCESS_KEY`` environment variables must be set to the
-corresponding key and secrets provided by Amazon IAM.
+Additionally, at least theAWS_ACCESS_KEY_IDandAWS_SECRET_ACCESS_KEY
+environment variables must be set to the corresponding key and secrets
+provided by Amazon IAM.
 
-.. _log-metric-1:
+``mlflow_log_metric``
+=====================
 
 Log Metric
-==========
 
 API to log a metric for a run. Metrics key-value pair that record a
 single float measure. During a single execution of a run, a particular
@@ -1087,8 +1152,10 @@ determined by the service set by ``mlflow_set_tracking_uri()``. For
 operations involving a run it adopts the current active run, or, if one
 does not exist, starts one through the implied service.
 
+``mlflow_log_model``
+====================
+
 Log Model
-=========
 
 Logs a model in the given run. Similar to ``mlflow_save_model()`` but
 stores model as an artifact within the active run.
@@ -1112,10 +1179,10 @@ Arguments
 |                               | compatible model will be saved.      |
 +-------------------------------+--------------------------------------+
 
-.. _log-parameter-1:
+``mlflow_log_param``
+====================
 
 Log Parameter
-=============
 
 API to log a parameter used for this run. Examples are params and
 hyperparams used for ML training, or constant dates and values used in
@@ -1149,8 +1216,10 @@ determined by the service set by ``mlflow_set_tracking_uri()``. For
 operations involving a run it adopts the current active run, or, if one
 does not exist, starts one through the implied service.
 
+``mlflow_param``
+================
+
 Read Command Line Parameter
-===========================
 
 Reads a command line parameter.
 
@@ -1180,11 +1249,13 @@ Arguments
 |                               | parameter.                           |
 +-------------------------------+--------------------------------------+
 
-Predict over MLflow Model Flavor
-================================
+``mlflow_predict_flavor``
+=========================
 
-Performs prediction over a model loaded using ``mlflow_load_model()`` ,
-to be used by package authors to extend the supported MLflow models.
+Predict over MLflow Model Flavor
+
+Performs prediction over a model loaded using mlflow_load_model(), to be
+used by package authors to extend the supported MLflow models.
 
 .. code:: r
 
@@ -1203,8 +1274,10 @@ Arguments
 | ``data``  | A data frame to perform scoring. |
 +-----------+----------------------------------+
 
+``mlflow_predict_model``
+========================
+
 Generate prediction with MLflow model.
-======================================
 
 Generate prediction with MLflow model.
 
@@ -1225,8 +1298,10 @@ Arguments
 | ``data``  | Dataframe to be scored. |
 +-----------+-------------------------+
 
+``mlflow_restore_snapshot``
+===========================
+
 Restore Snapshot
-================
 
 Restores a snapshot of all dependencies required to run the files in the
 current directory
@@ -1235,8 +1310,10 @@ current directory
 
    mlflow_restore_snapshot()
 
+``mlflow_rfunc_predict``
+========================
+
 Predict using RFunc MLflow Model
-================================
 
 Predict using an RFunc MLflow Model from a file or data frame.
 
@@ -1281,11 +1358,22 @@ Examples
 
 .. code:: r
 
-    list("\n", "library(mlflow)\n", "\n", "# save simple model which roundtrips data as prediction\n", "mlflow_save_model(function(df) df, \"mlflow_roundtrip\")\n", "\n", "# save data as json\n", "jsonlite::write_json(iris, \"iris.json\")\n", "\n", "# predict existing model from json data\n", "mlflow_rfunc_predict(\"mlflow_roundtrip\", \"iris.json\")\n") 
-    
+
+   library(mlflow)
+
+   # save simple model which roundtrips data as prediction
+   mlflow_save_model(function(df) df, "mlflow_roundtrip")
+
+   # save data as json
+   jsonlite::write_json(iris, "iris.json")
+
+   # predict existing model from json data
+   mlflow_rfunc_predict("mlflow_roundtrip", "iris.json")
+
+``mlflow_rfunc_serve``
+======================
 
 Serve an RFunc MLflow Model
-===========================
 
 Serve an RFunc MLflow Model as a local web api.
 
@@ -1336,10 +1424,22 @@ Examples
 
 .. code:: r
 
-    list("\n", "library(mlflow)\n", "\n", "# save simple model with constant prediction\n", "mlflow_save_model(function(df) 1, \"mlflow_constant\")\n", "\n", "# serve an existing model over a web interface\n", "mlflow_rfunc_serve(\"mlflow_constant\")\n", "\n", "# request prediction from server\n", "httr::POST(\"http://127.0.0.1:8090/predict/\")\n") 
+
+   library(mlflow)
+
+   # save simple model with constant prediction
+   mlflow_save_model(function(df) 1, "mlflow_constant")
+
+   # serve an existing model over a web interface
+   mlflow_rfunc_serve("mlflow_constant")
+
+   # request prediction from server
+   httr::POST("http://127.0.0.1:8090/predict/")
+
+``mlflow_run``
+==============
 
 Run in MLflow
-=============
 
 Wrapper for ``mlflow run``.
 
@@ -1408,8 +1508,10 @@ Value
 
 The run associated with this run.
 
+``mlflow_save_flavor.keras.engine.training.Model``
+==================================================
+
 Save MLflow Keras Model Flavor
-==============================
 
 Saves model in MLflow’s Keras flavor.
 
@@ -1448,8 +1550,10 @@ Value
 This funciton must return a list of flavors that conform to the MLmodel
 specification.
 
+``mlflow_save_flavor``
+======================
+
 Save MLflow Model Flavor
-========================
 
 Saves model in MLflow’s flavor, to be used by package authors to extend
 the supported MLflow models.
@@ -1489,8 +1593,10 @@ Value
 This funciton must return a list of flavors that conform to the MLmodel
 specification.
 
-Save Model for MLflow
+``mlflow_save_model``
 =====================
+
+Save Model for MLflow
 
 Saves model in MLflow’s format that can later be used for prediction and
 serving.
@@ -1522,8 +1628,10 @@ Arguments
 | ``conda_env``                 | Path to Conda dependencies file.     |
 +-------------------------------+--------------------------------------+
 
+``mlflow_server``
+=================
+
 Run the MLflow Tracking Server
-==============================
 
 Wrapper for ``mlflow server``.
 
@@ -1560,8 +1668,10 @@ Arguments
 |                               | the path of all static paths.        |
 +-------------------------------+--------------------------------------+
 
+``mlflow_set_experiment``
+=========================
+
 Set Experiment
-==============
 
 Set given experiment as active experiment. If experiment does not exist,
 create an experiment with provided name.
@@ -1591,10 +1701,10 @@ determined by the service set by ``mlflow_set_tracking_uri()``. For
 operations involving a run it adopts the current active run, or, if one
 does not exist, starts one through the implied service.
 
-.. _set-tag-1:
+``mlflow_set_tag``
+==================
 
 Set Tag
-=======
 
 Set a tag on a run. Tags are run metadata that can be updated during and
 after a run completes.
@@ -1629,8 +1739,10 @@ determined by the service set by ``mlflow_set_tracking_uri()``. For
 operations involving a run it adopts the current active run, or, if one
 does not exist, starts one through the implied service.
 
+``mlflow_set_tracking_uri``
+===========================
+
 Set Remote Tracking URI
-=======================
 
 Specifies the URI to the remote MLflow server that will be used to track
 experiments.
@@ -1650,8 +1762,10 @@ Arguments
 | ``uri``  | The URI to the remote MLflow server. |
 +----------+--------------------------------------+
 
+``mlflow_snapshot``
+===================
+
 Dependencies Snapshot
-=====================
 
 Creates a snapshot of all dependencies required to run the files in the
 current directory.
@@ -1660,8 +1774,10 @@ current directory.
 
    mlflow_snapshot()
 
+``mlflow_source``
+=================
+
 Source a Script with MLflow Params
-==================================
 
 This function should not be used interactively. It is designed to be
 called via ``Rscript`` from the terminal or through the MLflow CLI.
@@ -1681,11 +1797,12 @@ Arguments
 | ``uri``  | Path to an R script, can be a quoted or unquoted string. |
 +----------+----------------------------------------------------------+
 
-Start Run
-=========
+``mlflow_start_run``
+====================
 
-Starts a new run within an experiment, should be used within a ``with``
-block.
+Start Run
+
+Starts a new run within an experiment, should be used within awithblock.
 
 .. code:: r
 
@@ -1748,11 +1865,15 @@ Examples
 
 .. code:: r
 
-    list("\n", "with(mlflow_start_run(), {\n", "  mlflow_log(\"test\", 10)\n", "})\n") 
-    
+
+   with(mlflow_start_run(), {
+   mlflow_log("test", 10)
+   })
+
+``mlflow_ui``
+=============
 
 MLflow User Interface
-=====================
 
 Launches MLflow user interface.
 
@@ -1782,11 +1903,21 @@ Examples
 
 .. code:: r
 
-    list("\n", "library(mlflow)\n", "mlflow_install()\n", "\n", "# launch mlflow ui locally\n", "mlflow_ui()\n", "\n", "# launch mlflow ui for existing mlflow server\n", "mlflow_set_tracking_uri(\"http://tracking-server:5000\")\n", "mlflow_ui()\n") 
-    
+
+   library(mlflow)
+   mlflow_install()
+
+   # launch mlflow ui locally
+   mlflow_ui()
+
+   # launch mlflow ui for existing mlflow server
+   mlflow_set_tracking_uri("http://tracking-server:5000")
+   mlflow_ui()
+
+``mlflow_uninstall``
+====================
 
 Uninstalls MLflow.
-==================
 
 Uninstalls MLflow by removing the Conda environment.
 
@@ -1801,5 +1932,10 @@ Examples
 
 .. code:: r
 
-    list("\n", "library(mlflow)\n", "mlflow_install()\n", "mlflow_uninstall()\n") 
-    
+
+   library(mlflow)
+   mlflow_install()
+   mlflow_uninstall()
+
+``reexports``
+=============
